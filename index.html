@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Cameraman Example</title>
+    <link rel="stylesheet" type="text/css" href="/static/ply.css">
+
+    <style type="text/css">
+        body {
+            font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+        }
+
+        #banner {
+            background: #FF8000;
+            border-bottom: 1px solid #EFA048;
+        }
+
+        #banner h1, #banner h2 {
+            display: inline;
+            font-size: 2em;
+            line-height: 2em;
+        }
+
+        #banner h1 {
+            text-transform: uppercase;
+            font-weight: bold;
+            padding-right: 1em;
+            border-right: 1px solid black;
+        }
+
+        #banner h2 {
+            font-weight: normal;
+            padding-left: 1em;
+        }
+
+        #content {
+            font-size: 1.2em;
+            line-height: 1.2em;
+            margin-top: 2em;
+        }
+
+        #camera {
+            width: 480px;
+            height: 360px;
+            background: #eee;
+            border: 1px solid #999;
+            padding: -1px;
+            line-height: 360px;
+            text-align: center;
+        }
+
+        p.buttons {
+            text-align: center;
+            margin-top: 1em;
+            width: 480px;
+        }
+
+        h3 { margin-top: 0; } 
+        #photos {
+            height: 200px;
+        }
+
+        .note {
+            font-style: italic;
+            color: #666;
+        }
+
+        a.button, button, input[type="submit"] {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 1.0em; /* 12px */
+            line-height: 16px !important; /* 16px */
+
+            background: #222 url(/static/alert-overlay.png) repeat-x;
+            color: #fff;
+
+            display: inline-block;
+            padding: 2px 5px;
+            text-decoration: none;
+            font-weight: bold;
+            -moz-border-radius: 8px;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+            border: 0px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            position: relative;
+            cursor: pointer;
+        }
+
+        ul {
+            margin: 0 0 0 1em;
+            padding: 0;
+        }
+        li {
+            margin: 0 0 0.8em 0;
+            padding: 0;
+        }
+    </style>
+
+</head><body>
+
+    <div id="banner">
+        <div class="grid">
+            <h1>Cameraman</h1>
+            <h2>Webcam photos for the interweb</h2>
+        </div>
+    </div>
+
+    <div id="content" class="grid">
+
+        <div class="span-14">
+            <div id="camera">
+                <p>This is where the camera goes.</p>
+            </div>
+
+            <p class="buttons">
+                <button>Take picture</button>
+            </p>
+
+        </div>
+
+        <div class="span-10 last">
+            <h3>Photo uploads</h3>
+            <p class="note">Uploaded images are visible only to you, and are deleted after 10 minutes.</p>
+
+            <div id="photos">
+            </div>
+
+            <h3>Did you try:</h3>
+            <ul>
+                <li>Unplugging your webcam?</li>
+                <li>Going to Settings &rarr; Blah blah and disallowing use of your camera?</li>
+                <li><label><input type="checkbox"> Seeing the JavaScript?</label></li>
+                <li><label><input type="checkbox"> Pretending your connection is bad?</label></li>
+                <li><a href="http://github.com/markpasc/cameraman-example">Checking out the full source code for this site?</a></li>
+            </ul>
+        </div>
+
+        <div class="span-14">
+        </div>
+
+    </div>
+
+</body></html>
