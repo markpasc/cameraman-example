@@ -14,6 +14,9 @@ from google.appengine.ext.webapp import template
 PATH_CHARS = string.letters + string.digits + string.digits
 
 
+template.register_template_library('templatetags.superspaceless')
+
+
 class Image(db.Model):
 
     path = db.StringProperty()

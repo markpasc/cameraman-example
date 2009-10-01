@@ -124,7 +124,7 @@
 
     <div id="content" class="grid">
 
-        <div class="span-14">
+        <div class="span-13">
             <p class="about"><strong>Cameraman</strong> is a JavaScriptable Flash
             component for taking and uploading webcam photos. As it's completely
             controlled through JavaScript, it's a snap to integrate with your
@@ -132,13 +132,13 @@
             required!</strong></p>
         </div>
 
-        <div class="span-10 last">
+        <div class="span-11 last">
             <p class="about">Here's a simple, sample &ldquo;photo
             booth&rdquo; application that uses Cameraman to take and upload
             photos.</p>
         </div>
 
-        <div class="span-14">
+        <div class="span-13">
             <h3>The camera</h3>
 
             <div id="camera">
@@ -210,14 +210,16 @@
 
         </div>
 
-        <div class="span-10 last">
+        <div class="span-11 last">
             <h3>Photo uploads</h3>
             <p class="note">Uploaded images are visible only to you, and are deleted after 10 minutes.</p>
 
             <div id="photos">
+                {% filter superspaceless %}
                 {% for image in images %}
                     <img src="{{ root_url }}image/{{ image.path }}" width="96" height="72" alt="photo!">
                 {% endfor %}
+                {% endfilter %}
             </div>
 
             <h3>Did you try:</h3>
