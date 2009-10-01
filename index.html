@@ -64,6 +64,10 @@
             width: 480px;
         }
 
+        .hidden {
+            display: none;
+        }
+
         h3 { margin-top: 0; }
 
         #photos {
@@ -141,19 +145,62 @@
                 <p>This is where the camera goes.</p>
             </div>
 
-            <script type="text/javascript" src="/static/cameraman/cameraman.js"></script>
+            <script type="text/javascript" src="{{ root_url }}static/cameraman/cameraman.js"></script>
             <script type="text/javascript">
-                cameraman.url = '/static/cameraman/';
+                cameraman.url = '{{ root_url }}static/cameraman/';
                 var mycam = cameraman.createCamera({
                     'id': 'camera',
                     'width': '480',
                     'height': '360',
+                    'sendto': '{{ root_url }}upload',
+                    'errorSending': function(cam, err) { errorSending(cam, err) },
+                    'tookPhoto': function(cam) { tookPhoto(cam) },
+                    'droppedPhoto': function(cam) { droppedPhoto(cam) },
+                    'sentPhoto': function(cam, url) { sentPhoto(cam, url) }
                 });
             </script>
 
-            <p class="buttons">
+            <p id="take-buttons" class="buttons">
                 <button id="take-picture">Take picture</button>
             </p>
+            <p id="took-buttons" class="buttons hidden">
+                <button id="cancel-picture">Take another picture</button>
+                <button id="upload-picture">Upload this picture</button>
+            </p>
+            <p id="sent-buttons" class="buttons hidden">
+                Uploading...
+            </p>
+
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $('#take-picture').click(function () {
+                    mycam.takePhoto();
+                });
+                $('#cancel-picture').click(function () {
+                    mycam.dropPhoto();
+                });
+                $('#upload-picture').click(function () {
+                    mycam.sendPhoto();
+                    $('#took-buttons').hide();
+                    $('#sent-buttons').show();
+                });
+
+                function tookPhoto(cam) {
+                    $('#take-buttons').hide();
+                    $('#took-buttons').show();
+                }
+                function droppedPhoto(cam) {
+                    $('#took-buttons').hide();
+                    $('#take-buttons').show();
+                }
+                function errorSending(cam, err) {
+                    $('#sent-buttons').text(err);
+                }
+                function sentPhoto(cam, url) {
+                    $('#sent-buttons').hide();
+                    $('#take-buttons').show();
+                }
+            </script>
 
         </div>
 
