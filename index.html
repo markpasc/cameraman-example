@@ -40,11 +40,20 @@
         }
 
         #camera {
+            position: relative;
             width: 480px;
             height: 360px;
+        }
+
+        #camera p {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 478px;
+            height: 358px;
+            z-index: -1;
             background: #eee;
             border: 1px solid #999;
-            padding: -1px;
             line-height: 360px;
             text-align: center;
         }
@@ -132,8 +141,18 @@
                 <p>This is where the camera goes.</p>
             </div>
 
+            <script type="text/javascript" src="/static/cameraman/cameraman.js"></script>
+            <script type="text/javascript">
+                cameraman.url = '/static/cameraman/';
+                var mycam = cameraman.createCamera({
+                    'id': 'camera',
+                    'width': '480',
+                    'height': '360',
+                });
+            </script>
+
             <p class="buttons">
-                <button>Take picture</button>
+                <button id="take-picture">Take picture</button>
             </p>
 
         </div>
