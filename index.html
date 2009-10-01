@@ -215,6 +215,9 @@
             <p class="note">Uploaded images are visible only to you, and are deleted after 10 minutes.</p>
 
             <div id="photos">
+                {% for image in images %}
+                    <img src="{{ root_url }}image/{{ image.path }}" width="96" height="72" alt="photo!">
+                {% endfor %}
             </div>
 
             <h3>Did you try:</h3>

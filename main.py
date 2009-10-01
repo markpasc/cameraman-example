@@ -29,7 +29,7 @@ class Image(db.Model):
         if not self.expire_at:
             self.expire_at = datetime.now() + timedelta(minutes=10)
 
-        return db.put(self)
+        return super(Image, self).put()
 
 
 class RequestHandler(webapp.RequestHandler):
@@ -48,9 +48,13 @@ class IndexHandler(RequestHandler):
         except KeyError:
             owner = ''.join(choice(PATH_CHARS) for x in xrange(1, 30))
             self.response.headers['Set-Cookie'] = 'owner=%s' % owner
+            images = ()
+        else:
+            images = Image.all().filter('owner =', owner).filter('expire_at >', datetime.now()).fetch(10)
 
         context = {
             'root_url': self.request.relative_url('/'),
+            'images': images,
         }
 
         filename = join(dirname(__file__), 'index.html')
@@ -92,11 +96,8 @@ class ImageHandler(RequestHandler):
             return not_found()
 
         try:
-            (im,) = Image.all().filter('path =', path).filter('owner =', owner).fetch(1)
+            (im,) = Image.all().filter('path =', path).filter('owner =', owner).filter('expire_at >', datetime.now()).fetch(1)
         except ValueError:
-            return not_found()
-
-        if im.expire_at <= datetime.now():
             return not_found()
 
         self.respond(im.content, content_type=im.content_type)
