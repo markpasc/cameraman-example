@@ -10,13 +10,13 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 3 times in query history.
+# Used 50 times in query history.
 - kind: Image
   properties:
   - name: owner
   - name: expire_at
 
-# Used 23 times in query history.
+# Used 314 times in query history.
 - kind: Image
   properties:
   - name: owner

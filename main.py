@@ -34,6 +34,10 @@ class Image(db.Model):
 
         return super(Image, self).put()
 
+    @property
+    def extension(self):
+        return self.content_type.split('/')[1]
+
 
 class RequestHandler(webapp.RequestHandler):
 
@@ -83,7 +87,7 @@ class UploadHandler(RequestHandler):
         im.put()
 
         # "redirect" me to it
-        image_url = self.request.relative_url('/image/%s' % im.path)
+        image_url = self.request.relative_url('/image/%s.%s' % (im.path, im.extension))
         self.respond(image_url, content_type='text/plain')
 
 
@@ -109,7 +113,7 @@ class ImageHandler(RequestHandler):
 urls = (
     (r'/', IndexHandler),
     (r'/upload', UploadHandler),
-    (r'/image/(?P<path>.*)', ImageHandler),
+    (r'/image/(?P<path>[^.]*)\.\w+', ImageHandler),
 )
 
 

@@ -71,12 +71,18 @@
         h3 { margin-top: 0; }
 
         #photos {
-            height: 150px;
+            min-height: 72px;
+            margin-bottom: 1.6em;
+        }
+
+        #photos a {
+            margin-right: 4px;
         }
 
         .note {
             font-style: italic;
             color: #666;
+            margin-bottom: 0.8em;
         }
 
         a.button, button, input[type="submit"] {
@@ -109,6 +115,11 @@
 
         li {
             margin: 0 0 0.8em 0;
+            padding: 0;
+        }
+
+        #ShadowBox td {
+            border-width: 0;
             padding: 0;
         }
     </style>
@@ -200,11 +211,17 @@
                 function sentPhoto(cam, url) {
                     mycam.dropPhoto();
 
+                    var photolink = $('<a/>');
+                    photolink.attr('href', url);
                     var photo = $('<img/>');
                     photo.attr('src', url);
                     photo.attr('width', '96');
                     photo.attr('height', '72');
-                    $('#photos').append(photo);
+                    photolink.append(photo);
+                    $('#photos').append(photolink);
+
+                    photolink.click(function (e) { return zoomClick($(this).get(0), e); });
+                    photolink.mouseover(function (e) { zoomPreload($(this).get(0)); });
                 }
             </script>
 
@@ -214,13 +231,22 @@
             <h3>Photo uploads</h3>
             <p class="note">Uploaded images are visible only to you, and are deleted after 10 minutes.</p>
 
+            <script type="text/javascript" src="{{ root_url }}static/fancyzoom/js-global/FancyZoom.js"></script>
+            <script type="text/javascript" src="{{ root_url }}static/fancyzoom/js-global/FancyZoomHTML.js"></script>
+            <script type="text/javascript">
+                zoomImagesURI = '{{ root_url }}static/fancyzoom/images-global/zoom/';
+                $(document).ready(setupZoom);
+            </script>
+
+            {% filter superspaceless %}
             <div id="photos">
-                {% filter superspaceless %}
                 {% for image in images %}
-                    <img src="{{ root_url }}image/{{ image.path }}" width="96" height="72" alt="photo!">
+                    <a href="{{ root_url }}image/{{ image.path }}.{{ image.extension }}">
+                        <img src="{{ root_url }}image/{{ image.path }}.{{ image.extension }}" width="96" height="72" alt="photo!">
+                    </a>
                 {% endfor %}
-                {% endfilter %}
             </div>
+            {% endfilter %}
 
             <h3>Did you try:</h3>
             <ul>
