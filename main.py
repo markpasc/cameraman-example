@@ -110,10 +110,19 @@ class ImageHandler(RequestHandler):
         self.respond(im.content, content_type=im.content_type)
 
 
+class DeleteExpiredImagesHandler(RequestHandler):
+
+    def get(self):
+        images = Image.all().filter('expire_at <=', datetime.now()).fetch(1000)
+        db.delete(images)
+        self.respond('OK', content_type='text/plain')
+
+
 urls = (
     (r'/', IndexHandler),
     (r'/upload', UploadHandler),
     (r'/image/(?P<path>[^.]*)\.\w+', ImageHandler),
+    (r'/delete-expired-images', DeleteExpiredImagesHandler),
 )
 
 

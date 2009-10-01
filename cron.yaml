@@ -1,0 +1,4 @@
+cron:
+  - description: really delete expired images
+    url: /delete-expired-images
+    schedule: every 10 minutes
