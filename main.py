@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datetime import datetime, timedelta
 from os.path import join, dirname
 from random import choice
 import string
@@ -15,11 +16,11 @@ PATH_CHARS = string.letters + string.digits + string.digits
 
 class Image(db.Model):
 
-    path = db.StringProperty(required=True)
-    owner = db.StringProperty(required=True)
-    content = db.BlobProperty(required=True)
-    content_type = db.BlobProperty(required=True)
-    expire_at = db.DateTimeProperty(required=True)
+    path = db.StringProperty()
+    owner = db.StringProperty()
+    content = db.BlobProperty()
+    content_type = db.BlobProperty()
+    expire_at = db.DateTimeProperty()
 
     def put(self):
         if not self.path:
@@ -28,14 +29,14 @@ class Image(db.Model):
         if not self.expire_at:
             self.expire_at = datetime.now() + timedelta(minutes=10)
 
-        return super(db.Model, self).put()
+        return db.put(self)
 
 
 class RequestHandler(webapp.RequestHandler):
 
     def respond(self, content, content_type="text/html; charset='utf-8'", status=200):
         self.response.set_status(status)
-        self.response.headers['content-type'] = content_type
+        self.response.headers['content-type'] = str(content_type)
         self.response.out.write(content)
 
 
@@ -48,8 +49,12 @@ class IndexHandler(RequestHandler):
             owner = ''.join(choice(PATH_CHARS) for x in xrange(1, 30))
             self.response.headers['Set-Cookie'] = 'owner=%s' % owner
 
+        context = {
+            'root_url': self.request.relative_url('/'),
+        }
+
         filename = join(dirname(__file__), 'index.html')
-        html = template.render(filename, {})
+        html = template.render(filename, context)
         self.respond(html)
 
 
@@ -72,7 +77,7 @@ class UploadHandler(RequestHandler):
 
         # "redirect" me to it
         image_url = self.request.relative_url('/image/%s' % im.path)
-        self.response(image_url, content_type='text/plain')
+        self.respond(image_url, content_type='text/plain')
 
 
 class ImageHandler(RequestHandler):
