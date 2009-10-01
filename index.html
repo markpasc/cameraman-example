@@ -191,14 +191,20 @@
                 }
                 function droppedPhoto(cam) {
                     $('#took-buttons').hide();
+                    $('#sent-buttons').hide();
                     $('#take-buttons').show();
                 }
                 function errorSending(cam, err) {
                     $('#sent-buttons').text(err);
                 }
                 function sentPhoto(cam, url) {
-                    $('#sent-buttons').hide();
-                    $('#take-buttons').show();
+                    mycam.dropPhoto();
+
+                    var photo = $('<img/>');
+                    photo.attr('src', url);
+                    photo.attr('width', '96');
+                    photo.attr('height', '72');
+                    $('#photos').append(photo);
                 }
             </script>
 
@@ -214,14 +220,11 @@
             <h3>Did you try:</h3>
             <ul>
                 <li>Unplugging your webcam?</li>
-                <li>Going to Settings &rarr; Blah blah and disallowing use of your camera?</li>
+                <li>Going to Settings &rarr; Privacy and disallowing use of your camera?</li>
                 <li><label><input type="checkbox"> Seeing the JavaScript?</label></li>
                 <li><label><input type="checkbox"> Pretending your connection is bad?</label></li>
                 <li><a href="http://github.com/markpasc/cameraman-example">Looking at the full source code for this site?</a></li>
             </ul>
-        </div>
-
-        <div class="span-14">
         </div>
 
     </div>
